@@ -10,7 +10,7 @@
 | Jackie Jiang | 100789604 |
 | Nadman Khan | 100785940 |
 | Ahad Abdul | 100787992 |
-| DoubleD | StudentID |
+| Curtis Reynolds | 100749858 |
 
 ## Evaluation
 ### Objective Evaluation
