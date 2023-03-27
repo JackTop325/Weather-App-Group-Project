@@ -8,6 +8,7 @@ $(document).ready(function () {
 
   $("#search").click(function (event) {
     event.preventDefault();
+    $("#city-name").text($("#city").val());
     geoCoding();
   });
 
@@ -23,7 +24,7 @@ function getLocation() {
       longitude = position.coords.longitude;
       // console.log("Latitude: " + latitude + ", Longitude: " + longitude);
       geolocation();
-      getWeatherInfo();
+      getWeatherInfo(latitude, longitude)
     });
   } else {
     console.log("Geolocation is not supported by this browser.");
@@ -64,12 +65,11 @@ function geolocation() {
     type: "GET",
     dataType: "json",
     success: function (data) {
-      latitude = data.features[0].center[1];
-      longitude = data.features[0].center[0];
       const city = data.features[0].context.filter((context) =>
         context.id.startsWith("place")
       )[0].text;
-      console.log("Current Location: " + city);
+      // console.log("Current Location: " + city);
+      $("#city-name").text(city);
     },
     error: function (error) {
       console.log("Geolocation error: " + error);
@@ -94,7 +94,6 @@ function getWeatherInfo(latitude, longitude) {
 }
 
 function updateWeather(data) {
-  $("#city-name").text($("#city").val());
   const tempInCelsius = data.hourly.temperature_2m[0].toFixed(1);
   const tempInFahrenheit = ((tempInCelsius * 9) / 5 + 32).toFixed(1);
   const tempDisplay = $("#toggle").is(":checked")
