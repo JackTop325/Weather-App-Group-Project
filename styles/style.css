@@ -16,3 +16,16 @@ body {
 .weather-info img {
   margin-right: 10px;
 }
+
+.forecast-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.forecast-item {
+  display: inline-block;
+  width: 80px;
+  margin-right: 10px;
+  text-align: center;
+}
