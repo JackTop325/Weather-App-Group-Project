@@ -10,9 +10,22 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
     <link rel="stylesheet" href="styles/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.1/d3.min.js" integrity="sha512-EJphfO0pq9xyT3qaHte1zam2S9a1PZ76oHBjayziMT+2lw/Y0NhkSVHS2rfl3t4UX/eyq/D6f9d2sjA6K9t/Kg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+      integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.1/d3.min.js"
+      integrity="sha512-EJphfO0pq9xyT3qaHte1zam2S9a1PZ76oHBjayziMT+2lw/Y0NhkSVHS2rfl3t4UX/eyq/D6f9d2sjA6K9t/Kg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script type="text/javascript" src="scripts/location.js"></script>
   </head>
   <body>
@@ -35,7 +48,7 @@
           <div class="field has-addons">
             <div class="control is-expanded">
               <input
-                id = "city"
+                id="city"
                 class="input"
                 type="text"
                 placeholder="Search for city..."
@@ -56,14 +69,20 @@
           <div class="column is-2">
             <div class="box">
               <h2 class="title is-5">Options</h2>
+              <label class="checkbox">
+                <input id="toggle" type="checkbox" />
+                Toggle Fahrenheit
+              </label>
             </div>
           </div>
 
           <!-- Middle column for main forecast -->
           <div class="column is-8">
             <div class="box">
-              <h1 class="title is-10">Oshawa</h1>
-              <h2 class="title is-8">10°C</h2>
+              <h1 class="title is-10" id="city-name">Oshawa</h1>
+              <h2 class="title is-8" id="current-temperature"></h2>
+              <h3 id="precipitation-percentage"></h3>
+              <h3 id="windspeed"></h3>
             </div>
             <div class="box">
               <h2 class="title is-5">Today's Forecast</h2>
