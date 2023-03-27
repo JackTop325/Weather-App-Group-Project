@@ -5,17 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OTU Weather</title>
     <link rel="icon" href="images/logo.png" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
     <link rel="stylesheet" href="styles/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
       integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
@@ -80,7 +72,10 @@
           <div class="column is-8">
             <div class="box">
               <h1 class="title is-10" id="city-name"></h1>
-              <h2 class="title is-8" id="current-temperature"></h2>
+              <div class="weather-info">
+                <img id="weather-icon" src="" width="50" height="50">
+                <h2 class="title is-8" id="current-temperature"></h2>
+              </div>
               <h3 id="precipitation-percentage"></h3>
               <h3 id="windspeed"></h3>
             </div>

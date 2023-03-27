@@ -7,3 +7,12 @@ body {
 .scrollable-section {
   min-height: 1500px;
 }
+
+.weather-info {
+  display: flex;
+  align-items: center;
+}
+
+.weather-info img {
+  margin-right: 10px;
+}
