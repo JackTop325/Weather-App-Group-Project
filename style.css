@@ -1,0 +1,9 @@
+body {
+  background-image: url("images/background.png");
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;
+}
+.scrollable-section {
+  min-height: 1500px;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTU Weather</title>
+    <link rel="icon" href="images/logo.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="navbar has-background-link">
+      <div class="navbar-brand">
+        <a class="navbar-item">
+          <img src="images/logo.png" alt="Logo" />
+        </a>
+        <a class="navbar-item">
+          <h1 class="title is-4 has-text-white">OTU Weather</h1>
+        </a>
+      </div>
+    </header>
+
+    <!-- Search Bar -->
+    <section class="section">
+      <div class="container">
+        <form>
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input
+                class="input"
+                type="text"
+                placeholder="Search for city..."
+              />
+            </div>
+            <div class="control">
+              <button class="button is-link">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <main class="section scrollable-section">
+      <div class="container">
+        <div class="columns">
+          <!-- Left column for options -->
+          <div class="column is-2">
+            <div class="box">
+              <h2 class="title is-5">Options</h2>
+            </div>
+          </div>
+
+          <!-- Middle column for main forecast -->
+          <div class="column is-8">
+            <div class="box">
+              <h1 class="title is-10">Oshawa</h1>
+              <h2 class="title is-8">10°C</h2>
+            </div>
+            <div class="box">
+              <h2 class="title is-5">Today's Forecast</h2>
+              <p>Partly cloudy</p>
+            </div>
+          </div>
+
+          <!-- Right column for 7-day forecast -->
+          <div class="column is-2">
+            <div class="box">
+              <h2 class="title is-5">7-Day Forecast</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p><strong>OTU Weather</strong> All rights reserved.</p>
+        <p>
+          <a href="https://www.facebook.com" target="_blank">Facebook</a> |
+          <a href="https://www.twitter.com" target="_blank">Twitter</a> |
+          <a href="https://www.instagram.com" target="_blank">Instagram</a> |
+          <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
