@@ -94,7 +94,7 @@ function getWeatherInfo(latitude, longitude) {
 }
 
 function updateWeather(data) {
-  const tempInCelsius = data.hourly.temperature_2m[0].toFixed(1);
+  const tempInCelsius = data.hourly.temperature_2m[new Date().getHours()].toFixed(1);
   const tempInFahrenheit = ((tempInCelsius * 9) / 5 + 32).toFixed(1);
   const tempDisplay = $("#toggle").is(":checked")
     ? tempInFahrenheit + "°F"
@@ -102,9 +102,9 @@ function updateWeather(data) {
 
   $("#current-temperature").text(tempDisplay);
   $("#precipitation-percentage").text(
-    "Precipitation: " + data.hourly.precipitation_probability[0] + "%"
+    "Precipitation: " + data.hourly.precipitation_probability[new Date().getHours()] + "%"
   );
   $("#windspeed").text(
-    "Windspeed: " + (data.hourly.windspeed_10m[0] * 3.6).toFixed(1) + " km/h"
+    "Windspeed: " + (data.hourly.windspeed_10m[new Date().getHours()] * 3.6).toFixed(1) + " km/h"
   );
 }
