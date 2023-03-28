@@ -107,8 +107,8 @@ function getWeather(latitude, longitude) {
 // Updates the displayed weather information with searched location
 function updateWeather(data) {
   // Calculate temperature 
-  const tempInCelsius = data.hourly.temperature_2m[new Date().getHours()].toFixed(1);
-  const tempInFahrenheit = ((tempInCelsius * 9) / 5 + 32).toFixed(1);
+  const tempInCelsius = Math.round(data.hourly.temperature_2m[new Date().getHours()].toFixed(1));
+  const tempInFahrenheit = Math.round(((tempInCelsius * 9) / 5 + 32).toFixed(1));
   const tempDisplay = $("#toggle").is(":checked")
     ? tempInFahrenheit + "°F"
     : tempInCelsius + "°C";
@@ -124,6 +124,7 @@ function updateWeather(data) {
   );
   // Update Weather Icon
   const weatherCode = data.hourly.weathercode[new Date().getHours()];
+  console.log(weatherCode);
   var weatherIcon = getWeatherIcon(weatherCode, data.daily.sunrise[new Date().getHours()], data.daily.sunset[new Date().getHours()]);
   $("#weather-icon").attr("src", 'images/icons/' + weatherIcon);
   // Update forecast
@@ -141,7 +142,7 @@ function updateForecast(temperatures) {
     const hour = new Date().getHours() + i;
     const displayHour = hour % 12 || 12;
     const hourSuffix = hour < 12 || hour >= 24 ? "AM" : "PM";
-    const temp = temperatures[i].toFixed(1) + "°C";
+    const temp = Math.round(temperatures[i].toFixed(1)) + "°C";
     // Add time + temp to container
     const forecastItem = $('<div>').addClass('forecast-item');
     const hourText = $('<p>').html('<strong>' + displayHour + ':00 ' + hourSuffix + '</strong>');
