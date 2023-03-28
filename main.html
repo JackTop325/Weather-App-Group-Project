@@ -65,6 +65,10 @@
                 <input id="toggle" type="checkbox" />
                 Search in Fahrenheit
               </label>
+              <label class="checkbox">
+                <input id="advanced-toggle" type="checkbox" />
+                Show Advanced Information
+              </label>
             </div>
           </div>
 
@@ -77,8 +81,16 @@
                 <h2 class="title is-8" id="current-temperature"></h2>
               </div>
               <h3 id="precipitation-percentage"></h3>
+              <h3 id="humidity"></h3>
               <h3 id="windspeed"></h3>
+              <div id="advanced-info" class="advanced-info is-hidden">
+                <h3 id="cloud-cover"></h3>
+                <h3 id="dewpoint"></h3>
+                <h3 id="uv-index"></h3>
+              </div>
             </div>
+            
+            
             <div class="box">
               <h2 class="title is-5">Today's Forecast</h2>
               <div id="forecast-container"></div>

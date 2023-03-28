@@ -17,6 +17,15 @@ $(document).ready(function () {
   $("#toggle").change(function () {
     updateWeather(data);
   });
+
+  $("#advanced-toggle").change(function () {
+    if ($(this).is(":checked")) {
+      $("#advanced-info").removeClass("is-hidden");
+    } else {
+      $("#advanced-info").addClass("is-hidden");
+    }
+  });
+  
 });
 
 // getLocation Function
@@ -88,7 +97,8 @@ function geolocation() {
 // Uses open-meteo's API to fetch weather information from a given latitude and longitude
 // Result is stored in data
 function getWeather(latitude, longitude) {
-  var endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=sunrise,sunset&hourly=weathercode,temperature_2m,precipitation_probability,precipitation,windspeed_10m&timezone=America%2FNew_York`;
+  var endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=sunrise,sunset&hourly=apparent_temperature,relativehumidity_2m,weathercode,temperature_2m,precipitation_probability,precipitation,windspeed_10m,cloudcover,dewpoint_2m,uv_index&timezone=America%2FNew_York`;
+
   $.ajax({
     url: endpoint,
     type: "GET",
@@ -120,15 +130,30 @@ function updateWeather(data) {
   );
   // Update Windspeed
   $("#windspeed").text(
-    "Windspeed: " + (data.hourly.windspeed_10m[new Date().getHours()] * 3.6).toFixed(1) + " km/h"
+    "Windspeed: " + (data.hourly.windspeed_10m[new Date().getHours()]).toFixed(1) + " km/h"
+  );
+   // Update Humidity
+   $("#humidity").text(
+    "Humidity: " + Math.round((data.hourly.relativehumidity_2m[new Date().getHours()]).toFixed(1)) + "%"
   );
   // Update Weather Icon
   const weatherCode = data.hourly.weathercode[new Date().getHours()];
-  console.log(weatherCode);
+  //console.log(weatherCode);
   var weatherIcon = getWeatherIcon(weatherCode, data.daily.sunrise[new Date().getHours()], data.daily.sunset[new Date().getHours()]);
   $("#weather-icon").attr("src", 'images/icons/' + weatherIcon);
   // Update forecast
   updateForecast(data.hourly.temperature_2m);
+
+  // Update Advanced Information
+  $("#cloud-cover").text(
+    "Cloud Cover: " + data.hourly.cloudcover[new Date().getHours()] + "%"
+  );
+  $("#dewpoint").text(
+    "Dewpoint: " + data.hourly.dewpoint_2m[new Date().getHours()].toFixed(1) + "°C"
+  );
+  $("#uv-index").text(
+    "UV Index: " + data.hourly.uv_index[new Date().getHours()].toFixed(1)
+  );
 }
 
 // updateForecast Function
@@ -155,24 +180,12 @@ function updateForecast(temperatures) {
 // getWeatherIcon Function
 // Using the WMO code from open-meteo's API, display the corresponding weather icon
 function getWeatherIcon(code, sunrise, sunset) {
-  // Calculate if current time is "day" or "night"
-  const currTime = new Date();
-  const sunriseTime = new Date(sunrise * 1000);
-  const sunsetTime = new Date(sunset * 1000);
-  const isDay = currTime >= sunriseTime && currTime <= sunsetTime;
-
   // Code & Time Cases
-  if (code >= 0 && code <= 2 && isDay) {
+  if (code >= 0 && code <= 2) {
     return "sun.png";
   }
-  if (code >= 0 && code <= 2 && !isDay) {
-    return "night.png";
-  }
-  if (code == 3 && isDay) {
+  if (code == 3) {
     return "partly-cloudy.png";
-  }
-  if (code == 3 && !isDay) {
-    return "cloudy-night.png";
   }
   if (code >= 4 && code <= 12 || code == 28 || code >= 40 && code <= 49) {
     return "fog.png";
