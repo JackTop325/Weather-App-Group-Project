@@ -43,6 +43,29 @@ function getLocation() {
   }
 }
 
+// updateSevenDayForecast Function
+// Updates the 7-day forecast, displaying highs and lows for each day.
+function updateSevenDayForecast(data) {
+  const forecastDays = 7;
+  const daysOfWeek = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
+  const forecastDiv = $(".column.right .box");
+
+  for (let i = 0; i < forecastDays; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() + i);
+    const day = daysOfWeek[date.getDay()];
+    const tempMax = Math.round(data.daily.temperature_2m_max[i].toFixed(1));
+    const tempMin = Math.round(data.daily.temperature_2m_min[i].toFixed(1));
+
+    const dayDiv = $("<div>").addClass("forecast-day");
+    const dayName = $("<h4>").text(day);
+    const tempRange = $("<p>").text(`${tempMax}°C / ${tempMin}°C`);
+
+    dayDiv.append(dayName, tempRange);
+    forecastDiv.append(dayDiv);
+  }
+}
+
 // geoCoding Function
 // Uses the mapbox API to retreive the latitude and longitude of a given location.
 function geoCoding() {
@@ -97,7 +120,7 @@ function geolocation() {
 // Uses open-meteo's API to fetch weather information from a given latitude and longitude
 // Result is stored in data
 function getWeather(latitude, longitude) {
-  var endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=sunrise,sunset&hourly=apparent_temperature,relativehumidity_2m,weathercode,temperature_2m,precipitation_probability,precipitation,windspeed_10m,cloudcover,dewpoint_2m,uv_index&timezone=America%2FNew_York`;
+  var endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=apparent_temperature,relativehumidity_2m,weathercode,temperature_2m,precipitation_probability,precipitation,windspeed_10m,cloudcover,dewpoint_2m,uv_index&timezone=America%2FNew_York`;
 
   $.ajax({
     url: endpoint,
@@ -106,6 +129,7 @@ function getWeather(latitude, longitude) {
     success: function (data) {
       console.log(data);
       updateWeather(data); // Update displayed weather using fetched data
+      updateSevenDayForecast(data); // Update 7-day forecast using fetched data
     },
     error: function (error) {
       console.log("Could not get weather information, Error:" + error);
