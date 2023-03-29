@@ -89,6 +89,7 @@ function geoCoding() {
         latitude = data.features[0].center[1];
         longitude = data.features[0].center[0];
         getWeather(latitude, longitude);
+        $("#city-name").text($("#city").val());
       } else {
         console.log("Location not found");
       }
