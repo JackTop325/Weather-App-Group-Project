@@ -61,3 +61,47 @@ h4 {
   border-radius: 10px;
   padding: 20px;
 }
+
+/* Temperature chart styles */
+#temperature-chart {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.line {
+  fill: none;
+  stroke: #3983BC; /* Updated color */
+  stroke-width: 3; /* Updated stroke width */
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #7F8C8D; /* Updated color */
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif; /* Updated font family */
+  fill: #7F8C8D; /* Updated color */
+}
+
+.graph-title {
+  font-family: 'Roboto', sans-serif; /* Updated font family */
+  fill: #2C3E50; /* Updated color */
+  font-weight: bold;
+}
+
+.axis-label {
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif; /* Updated font family */
+  fill: #000000; /* Updated color */
+}
+
+.grid path,
+.grid line {
+  stroke: rgba(0, 0, 0, 0.1);
+  shape-rendering: crispEdges;
+}

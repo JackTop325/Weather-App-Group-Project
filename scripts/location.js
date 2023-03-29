@@ -25,7 +25,7 @@ $(document).ready(function () {
       $("#advanced-info").addClass("is-hidden");
     }
   });
-  
+
 });
 
 // getLocation Function
@@ -53,9 +53,12 @@ function updateSevenDayForecast(data) {
   // Clear previous forecast
   forecastDiv.find(".forecast-day").remove();
 
+  const today = new Date();
+  const daysUntilMonday = (7 - today.getDay() + 1) % 7;
+
   for (let i = 0; i < forecastDays; i++) {
     const date = new Date();
-    date.setDate(date.getDate() + i);
+    date.setDate(date.getDate() + daysUntilMonday + i);
     const day = daysOfWeek[date.getDay()];
     const tempMax = Math.round(data.daily.temperature_2m_max[i].toFixed(1));
     const tempMin = Math.round(data.daily.temperature_2m_min[i].toFixed(1));
@@ -67,6 +70,79 @@ function updateSevenDayForecast(data) {
     forecastDiv.append(dayDiv);
   }
 }
+
+function make_x_gridlines() {
+  return d3.axisBottom(x).ticks(24);
+}
+
+function make_y_gridlines() {
+  return d3.axisLeft(y).ticks(10);
+}
+
+function drawTemperatureChart(data) {
+  const hourlyData = data.hourly.temperature_2m.slice(0, 24);
+  const margin = { top: 40, right: 20, bottom: 70, left: 70 };
+  const containerWidth = d3.select("#temperature-chart").node().clientWidth; // Add this line
+  const width = containerWidth - margin.left - margin.right; // Update this line
+  const height = 500 - margin.top - margin.bottom;
+
+  const x = d3.scaleLinear().domain([0, 23]).range([0, width]);
+  const y = d3.scaleLinear().domain([Math.min(...hourlyData), Math.max(...hourlyData)]).range([height, 0]);
+
+  const line = d3
+    .line()
+    .x((d, i) => x(i))
+    .y((d) => y(d));
+
+  d3.select("#temperature-chart").selectAll("*").remove();
+
+  const svg = d3
+    .select("#temperature-chart")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.append("path").datum(hourlyData).attr("class", "line").attr("d", line);
+
+  svg
+    .append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x).ticks(24).tickFormat(d => (d % 12 || 12) + (d < 12 ? ' AM' : ' PM')));
+
+  svg.append("g").call(d3.axisLeft(y));
+
+  // Add x-axis label
+  svg
+    .append("text")
+    .attr("class", "axis-label")
+    .attr("x", width / 2)
+    .attr("y", height + margin.top + 20)
+    .style("text-anchor", "middle")
+    .text("Time (Hours)");
+
+  // Add y-axis label
+  svg
+    .append("text")
+    .attr("class", "axis-label")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -margin.left + 20)
+    .attr("x", -(height / 2))
+    .style("text-anchor", "middle")
+    .text("Temperature (°C)");
+
+  // Add graph title
+  svg
+    .append("text")
+    .attr("class", "graph-title")
+    .attr("x", width / 2)
+    .attr("y", -margin.top + 20)
+    .style("text-anchor", "middle")
+    .style("font-size", "1.2rem")
+    .text("Temperature Change Across the Day");
+}
+
 
 // geoCoding Function
 // Uses the mapbox API to retreive the latitude and longitude of a given location.
@@ -132,6 +208,7 @@ function getWeather(latitude, longitude) {
       console.log(data);
       updateWeather(data); // Update displayed weather using fetched data
       updateSevenDayForecast(data); // Update 7-day forecast using fetched data
+      drawTemperatureChart(data); // Add this line
     },
     error: function (error) {
       console.log("Could not get weather information, Error:" + error);
@@ -158,8 +235,8 @@ function updateWeather(data) {
   $("#windspeed").text(
     "Windspeed: " + (data.hourly.windspeed_10m[new Date().getHours()]).toFixed(1) + " km/h"
   );
-   // Update Humidity
-   $("#humidity").text(
+  // Update Humidity
+  $("#humidity").text(
     "Humidity: " + Math.round((data.hourly.relativehumidity_2m[new Date().getHours()]).toFixed(1)) + "%"
   );
   // Update Weather Icon
@@ -216,7 +293,7 @@ function getWeatherIcon(code, sunrise, sunset) {
   if (code >= 4 && code <= 12 || code == 28 || code >= 40 && code <= 49) {
     return "fog.png";
   }
-  if (code >= 13 && code <= 19){
+  if (code >= 13 && code <= 19) {
     return "cloud.png";
   }
   if (code >= 20 && code <= 21 || code >= 60 && code <= 69 || code >= 80 && code <= 84 || code >= 91 && code <= 94) {
