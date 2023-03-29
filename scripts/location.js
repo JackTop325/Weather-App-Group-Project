@@ -51,7 +51,7 @@ function updateSevenDayForecast(data) {
   const forecastDiv = $(".column.right .box");
 
   // Clear previous forecast
-  forecastDiv.empty();
+  forecastDiv.find(".forecast-day").remove();
 
   for (let i = 0; i < forecastDays; i++) {
     const date = new Date();
@@ -59,7 +59,6 @@ function updateSevenDayForecast(data) {
     const day = daysOfWeek[date.getDay()];
     const tempMax = Math.round(data.daily.temperature_2m_max[i].toFixed(1));
     const tempMin = Math.round(data.daily.temperature_2m_min[i].toFixed(1));
-
     const dayDiv = $("<div>").addClass("forecast-day");
     const dayName = $("<h4>").text(day);
     const tempRange = $("<p>").text(`${tempMax}°C / ${tempMin}°C`);
