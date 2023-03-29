@@ -4,13 +4,13 @@ function make_x_gridlines() {
 
 function make_y_gridlines() {
     return d3.axisLeft(y).ticks(10);
-}
+} // THEY DONT WORK AAA
 
 function drawTemperatureChart(data) {
     const hourlyData = data.hourly.temperature_2m.slice(0, 24);
     const margin = { top: 40, right: 20, bottom: 70, left: 70 };
-    const containerWidth = d3.select("#temperature-chart").node().clientWidth; // Add this line
-    const width = containerWidth - margin.left - margin.right; // Update this line
+    const containerWidth = d3.select("#temperature-chart").node().clientWidth;
+    const width = containerWidth - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
     const x = d3.scaleLinear().domain([0, 23]).range([0, width]);
@@ -31,7 +31,23 @@ function drawTemperatureChart(data) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    svg.append("path").datum(hourlyData).attr("class", "line").attr("d", line);
+    const path = svg
+        .append("path")
+        .datum(hourlyData)
+        .attr("class", "line")
+        .attr("d", line);
+
+    const totalLength = path.node().getTotalLength();
+
+    path
+        .attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength);
+
+    path
+        .transition()
+        .duration(1000) // Animation duration in milliseconds
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
 
     svg
         .append("g")
