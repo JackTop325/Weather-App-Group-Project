@@ -2,6 +2,7 @@ var latitude;
 var longitude;
 var mapBoxAccessToken =
   "pk.eyJ1IjoiamFja3RvcCIsImEiOiJjbGEzMDdkeHkwZXFvM3FvYzJyNnQ1cTY5In0.DF-KCqd2MVSkAcSGE1xS0A";
+var data;
 
 // Document Ready
 // Handles click events onload
@@ -10,7 +11,6 @@ $(document).ready(function () {
 
   $("#search").click(function (event) {
     event.preventDefault();
-    $("#city-name").text($("#city").val());
     geoCoding();
   });
 
@@ -85,9 +85,13 @@ function geoCoding() {
     type: "GET",
     dataType: "json",
     success: function (data) {
-      latitude = data.features[0].center[1];
-      longitude = data.features[0].center[0];
-      getWeather(latitude, longitude);
+      if (data.features.length != 0){
+        latitude = data.features[0].center[1];
+        longitude = data.features[0].center[0];
+        getWeather(latitude, longitude);
+      } else {
+        console.log("Location not found");
+      }
     },
     error: function (error) {
       console.log("Geocoding error: " + error);
@@ -131,7 +135,8 @@ function getWeather(latitude, longitude) {
     url: endpoint,
     type: "GET",
     dataType: "json",
-    success: function (data) {
+    success: function (d) {
+      data = d;
       console.log(data);
       updateWeather(data); // Update displayed weather using fetched data
       updateSevenDayForecast(data); // Update 7-day forecast using fetched data
