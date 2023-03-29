@@ -178,7 +178,13 @@ function updateWeather(data) {
   var weatherIcon = getWeatherIcon(weatherCode, data.daily.sunrise[new Date().getHours()], data.daily.sunset[new Date().getHours()]);
   $("#weather-icon").attr("src", 'images/icons/' + weatherIcon);
   // Update forecast
-  updateForecast(data.hourly.temperature_2m);
+  const currentHour = new Date().getHours();
+  const nextNineHoursTemperatures = [];
+  for (let i = 0; i <= 8; i++) {
+    const hourIndex = (currentHour + i) % 24;
+    nextNineHoursTemperatures.push(data.hourly.temperature_2m[hourIndex]);
+  }
+  updateForecast(nextNineHoursTemperatures);
 
   // Update Advanced Information
   $("#cloud-cover").text(
