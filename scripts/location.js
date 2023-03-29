@@ -50,6 +50,9 @@ function updateSevenDayForecast(data) {
   const daysOfWeek = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
   const forecastDiv = $(".column.right .box");
 
+  // Clear previous forecast
+  forecastDiv.empty();
+
   for (let i = 0; i < forecastDays; i++) {
     const date = new Date();
     date.setDate(date.getDate() + i);
