@@ -10,9 +10,30 @@ $(document).ready(function () {
   getLocation();
 
   $("#search").click(function (event) {
+    // Prevent the default action of the click event (e.g., form submission) from executing
     event.preventDefault();
-    geoCoding();
+    // Get the value (city name) from the input field with the ID "city"
+    const cityName = $("#city").val();
+    // Check if the city name is not empty
+    if (cityName) {
+      // Get the selected city object, which was previously stored as data on the input field
+      const selectedCity = $("#city").data("selectedCity");
+      // Check if the selected city exists and its label matches the entered city name
+      if (selectedCity && selectedCity.label === cityName) {
+        // If true, set the latitude and longitude from the selected city object
+        latitude = selectedCity.center[1];
+        longitude = selectedCity.center[0];
+      } else {
+        // If false, call the geoCoding() function to fetch the latitude and longitude
+        geoCoding();
+      }
+      // Call the getWeather() function to fetch weather information for the city
+      getWeather(latitude, longitude);
+      // Update the text content of the element with the ID "city-name" to display the entered city's name
+      $("#city-name").text(cityName);
+    }
   });
+
 
   $("#toggle").change(function () {
     updateWeather(data);
@@ -26,7 +47,68 @@ $(document).ready(function () {
     }
   });
 
+  // Initialize the Autocomplete widget
+  $("#city").autocomplete({
+    // Set the source function to fetch city suggestions using the getCitySuggestions function
+    source: getCitySuggestions,
+    // Set the minimum number of characters required to trigger the Autocomplete suggestions
+    minLength: 1,
+    // Define a function to execute when a suggestion is selected from the list
+    select: function (event, ui) {
+      // Set the value of the input field to the selected city's name
+      $("#city").val(ui.item.value);
+      // Store the selected city object as data on the input field for future reference
+      $("#city").data("selectedCity", ui.item);
+      // Extract the latitude and longitude of the selected city
+      latitude = ui.item.center[1];
+      longitude = ui.item.center[0];
+      // Call the getWeather function to fetch weather information for the selected city
+      getWeather(latitude, longitude);
+      // Update the text content of the element with the ID "city-name" to display the selected city's name
+      $("#city-name").text(ui.item.value);
+      // Prevent the default action of the select event from executing
+      return false;
+    },
+  });
 });
+
+// getCitySuggestions Function
+// Fetches city name suggestions based on the input query using Mapbox API
+function getCitySuggestions(request, callback) {
+  // Extract the search term from the request
+  const query = request.term;
+  // Construct the Mapbox Geocoding API URL with the search term and access token
+  const mapboxGeocodingUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+    query
+  )}.json?access_token=${mapBoxAccessToken}&limit=5`;
+
+  // Make an AJAX request to the Mapbox Geocoding API
+  $.ajax({
+    url: mapboxGeocodingUrl,
+    type: "GET",
+    dataType: "json",
+    // If the request is successful, process the data
+    success: function (data) {
+      // Filter out features that are not cities and create a list of suggestion objects
+      const suggestions = data.features
+        .filter(feature => feature.place_type.includes("place"))
+        .map(function (feature) {
+          // Create a suggestion object with label, value, and center properties
+          return {
+            label: feature.place_name,
+            value: feature.place_name,
+            center: feature.center,
+          };
+        });
+      // Pass the list of suggestions to the callback function
+      callback(suggestions);
+    },
+    // If the request fails, log the error
+    error: function (error) {
+      console.log("Error fetching city suggestions:", error);
+    },
+  });
+}
 
 // getLocation Function
 // Geolocates the user's current position. Retreives their latitude and longitude
@@ -85,7 +167,7 @@ function geoCoding() {
     type: "GET",
     dataType: "json",
     success: function (data) {
-      if (data.features.length != 0){
+      if (data.features.length != 0) {
         latitude = data.features[0].center[1];
         longitude = data.features[0].center[0];
         getWeather(latitude, longitude);
