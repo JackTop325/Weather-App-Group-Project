@@ -129,18 +129,17 @@ function getLocation() {
 // Updates the 7-day forecast, displaying highs and lows for each day.
 function updateSevenDayForecast(data) {
   const forecastDays = 7;
-  const daysOfWeek = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const forecastDiv = $(".column.right .box");
 
   // Clear previous forecast
   forecastDiv.find(".forecast-day").remove();
 
   const today = new Date();
-  const daysUntilMonday = (7 - today.getDay() + 1) % 7;
 
   for (let i = 0; i < forecastDays; i++) {
     const date = new Date();
-    date.setDate(date.getDate() + daysUntilMonday + i);
+    date.setDate(date.getDate() + i);
     const day = daysOfWeek[date.getDay()];
     const tempMax = Math.round(data.daily.temperature_2m_max[i].toFixed(1));
     const tempMin = Math.round(data.daily.temperature_2m_min[i].toFixed(1));

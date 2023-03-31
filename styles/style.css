@@ -13,6 +13,19 @@ body {
   align-items: center;
 }
 
+.tooltip {
+  position: absolute;
+  text-align: center;
+  width: auto;
+  height: auto;
+  padding: 5px;
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
 .weather-info img {
   margin-right: 10px;
 }
@@ -105,3 +118,4 @@ h4 {
   stroke: rgba(0, 0, 0, 0.1);
   shape-rendering: crispEdges;
 }
+
