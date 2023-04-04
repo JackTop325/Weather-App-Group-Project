@@ -4,6 +4,7 @@ Kaine Makimoto
 
 Jackie Jiang
 - Worked on Ajax, and web services
+- Worked on geolocation and geocoding
 - Worked on fetching data from Open Meteo and from MapBox
 - Worked on Node.js
 
