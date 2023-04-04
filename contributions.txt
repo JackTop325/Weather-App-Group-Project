@@ -3,7 +3,7 @@ David Howe
 Kaine Makimoto
 
 Jackie Jiang
-- Worked on Ajax
+- Worked on Ajax, and web services
 - Worked on fetching data from Open Meteo and from MapBox
 - Worked on Node.js
 
