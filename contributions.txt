@@ -1,6 +1,12 @@
 David Howe
 
 Kaine Makimoto
+- Created landing page design and elements
+- Added functionality to display temperature details based on search
+- Added functionality to toggle between celsius and fahrenheit
+- Added functionality to toggle advanced weather information
+- Added weather image indicator, that changes based on the weather
+- Worked on today's forecast section
 
 Jackie Jiang
 - Worked on Ajax, and web services
