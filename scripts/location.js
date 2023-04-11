@@ -3,11 +3,13 @@ var longitude;
 var mapBoxAccessToken =
   "pk.eyJ1IjoiamFja3RvcCIsImEiOiJjbGEzMDdkeHkwZXFvM3FvYzJyNnQ1cTY5In0.DF-KCqd2MVSkAcSGE1xS0A";
 var data;
+var favouriteCities = [];
 
 // Document Ready
 // Handles click events onload
 $(document).ready(function () {
   getLocation();
+  initializeFavouritesList();
 
   $("#search").click(function (event) {
     // Prevent the default action of the click event (e.g., form submission) from executing
@@ -336,13 +338,77 @@ function getWeatherIcon(code, sunrise, sunset) {
   }
 }
 
+/// Functions for the favourites list
+function initializeFavouritesList() {
+  var cookieVal = getCookie('favourites');
+
+  if (cookieVal != null) {
+    // Remove brackets and split with pipe
+    cookieVal = cookieVal.replace(/\[|]/, '');
+    favouriteCities = cookieVal.split('|');
+  } else {
+    favouriteCities = [];
+  }
+
+  updateFavouriteLocations();
+}
+
+function updateLocationCookie() {
+  var output = '[';
+  for (city of favouriteCities) {
+    output += `${city}|`;
+  }
+  output = `${output.slice(0, -1)}]`;
+  setCookie('favourites', output);
+}
+
 // Update favourite locations
 function updateFavouriteLocations() {
-  
+  // Remove all current buttons on favourite
+  $favouriteDiv = $('#favourite-list');
+  $favouriteDiv.empty();
+
+  for (city of favouriteCities) {
+    cityName = city.split(',')[0];
+    $newCityButton = $(`<a class="button is-fullwidth" data-fullname="${city}">${cityName}</a>`);
+    $favouriteDiv.append($newCityButton);
+  }
 }
 
 // Favourite a location
 function addFavouriteLocation(location) {
-  // get cookies
-  // 
+  
+}
+
+// Unfavourite a location
+function removeFavouriteLocation(location) {
+  
+}
+
+
+/// Cookie handling
+
+function setCookie(name, value) {
+  document.cookie = `${name} = ${value}; max-age=31536000; path=/;`;
+}
+
+function getCookie(name) {
+  let cookieString = decodeURIComponent(document.cookie);
+  cookies = cookieString.split(';');
+
+  for (var cookie of cookies) {
+    let c = cookie;
+    // remove spaces
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return null;
+}
+
+function deleteCookie(name) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
 }
