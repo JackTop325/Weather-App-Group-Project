@@ -9,10 +9,12 @@ Kaine Makimoto
 - Worked on today's forecast section
 
 Jackie Jiang
-- Worked on Ajax, and web services
-- Worked on geolocation and geocoding
-- Worked on fetching data from Open Meteo and from MapBox
+- Used Ajax, and web services to get data from the internet
+- Used Ajax to fetch data from Open Meteo and from MapBox
+- Set up access to MapBox with api key
+- Used MapBox to create functions for geolocation and geocoding
 - Worked on Node.js
+- Helped fix bugs
 
 Nadman Khan
 
