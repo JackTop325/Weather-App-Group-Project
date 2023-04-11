@@ -335,3 +335,14 @@ function getWeatherIcon(code, sunrise, sunset) {
     return "unknown.png";
   }
 }
+
+// Update favourite locations
+function updateFavouriteLocations() {
+  
+}
+
+// Favourite a location
+function addFavouriteLocation(location) {
+  // get cookies
+  // 
+}
