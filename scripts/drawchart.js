@@ -144,6 +144,6 @@ function drawTemperatureChart(data, unit) {
         });
 
     window.addEventListener("resize", () => { // Ensures that the graph rescales when the window is resized
-        drawTemperatureChart(data);
+        drawTemperatureChart(data, unit);
     });
 }
