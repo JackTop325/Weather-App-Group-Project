@@ -136,4 +136,8 @@ function drawTemperatureChart(data) {
                 .duration(500)
                 .style("opacity", 0);
         });
+
+    window.addEventListener("resize", () => { // Ensures that the graph rescales when the window is resized
+        drawTemperatureChart(data);
+    });
 }
