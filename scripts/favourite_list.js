@@ -11,7 +11,7 @@ function initializeFavouritesList() {
 
   if (cookieVal !== null) {
     // Remove brackets and split with pipe
-    cookieVal = cookieVal.replace(/\[|]/, '');
+    cookieVal = cookieVal.replace(/\[|]/g, '');
     favouriteCities = cookieVal.split('|');
   } else {
     favouriteCities = [];
