@@ -13,6 +13,11 @@ body {
   align-items: center;
 }
 
+/* Reduce padding */
+.section {
+  padding: 1rem 1.5rem;
+}
+
 .tooltip {
   position: absolute;
   text-align: center;

@@ -267,12 +267,14 @@ function updateWeather(data) {
   $("#weather-icon").attr("src", 'images/icons/' + weatherIcon);
   // Update forecast
   const currentHour = new Date().getHours();
+  const unit = $("#toggle").is(":checked") ? "F" : "C";
   const nextNineHoursTemperatures = [];
   for (let i = 0; i <= 8; i++) {
     const hourIndex = (currentHour + i) % 24;
     nextNineHoursTemperatures.push(data.hourly.temperature_2m[hourIndex]);
   }
-  updateForecast(nextNineHoursTemperatures);
+  drawTemperatureChart(data, unit); // Pass the unit here
+  updateForecast(nextNineHoursTemperatures, unit); // Pass the unit here
 
   // Update Advanced Information
   $("#cloud-cover").text(
@@ -288,7 +290,7 @@ function updateWeather(data) {
 
 // updateForecast Function
 // Updates the upcoming forecast. Displays the current hour and the next 8 hours after it.
-function updateForecast(temperatures) {
+function updateForecast(temperatures, unit) {
   const forecast = $('#forecast-container');
   forecast.empty();
   // Iterate through temperatures
@@ -297,7 +299,9 @@ function updateForecast(temperatures) {
     const hour = new Date().getHours() + i;
     const displayHour = hour % 12 || 12;
     const hourSuffix = hour < 12 || hour >= 24 ? "AM" : "PM";
-    const temp = Math.round(temperatures[i].toFixed(1)) + "°C";
+    const tempInCelsius = Math.round(temperatures[i].toFixed(1));
+    const tempInFahrenheit = Math.round(((tempInCelsius * 9) / 5 + 32).toFixed(1));
+    const temp = unit === "F" ? tempInFahrenheit + "°F" : tempInCelsius + "°C";
     // Add time + temp to container
     const forecastItem = $('<div>').addClass('forecast-item');
     const hourText = $('<p>').html('<strong>' + displayHour + ':00 ' + hourSuffix + '</strong>');

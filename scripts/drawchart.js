@@ -1,5 +1,10 @@
-function drawTemperatureChart(data) {
+function drawTemperatureChart(data, unit) {
     const hourlyData = data.hourly.temperature_2m.slice(0, 24);
+    if (unit === "F") {
+        hourlyData.forEach((temp, i) => {
+            hourlyData[i] = (temp * 9) / 5 + 32;
+        });
+    }
     const margin = { top: 40, right: 20, bottom: 70, left: 70 };
     const containerWidth = d3.select("#temperature-chart").node().clientWidth;
     const width = containerWidth - margin.left - margin.right;
@@ -57,7 +62,7 @@ function drawTemperatureChart(data) {
         .style("text-anchor", "middle")
         .text("Time (Hours)");
 
-    // Add y-axis label
+    // Update y-axis label according to the selected unit
     svg
         .append("text")
         .attr("class", "axis-label")
@@ -65,7 +70,7 @@ function drawTemperatureChart(data) {
         .attr("y", -margin.left + 20)
         .attr("x", -(height / 2))
         .style("text-anchor", "middle")
-        .text("Temperature (°C)");
+        .text("Temperature (°" + (unit === "F" ? "F" : "C") + ")");
 
     // Add graph title
     svg
@@ -120,8 +125,9 @@ function drawTemperatureChart(data) {
                 // Get the SVG container's position
                 const containerPosition = d3.select("#temperature-chart").node().getBoundingClientRect();
 
-                // Update the tooltip's position
-                tooltip.html("Time: " + xValue + "h<br>Temperature: " + yValue.toFixed(1) + "°C")
+                // Update the tooltip's position and content according to the selected unit
+                tooltip
+                    .html("Time: " + xValue + "h<br>Temperature: " + yValue.toFixed(1) + "°" + (unit === "F" ? "F" : "C"))
                     .style("left", (containerPosition.left + x(xValue) + margin.left + 10) + "px")
                     .style("top", (containerPosition.top + y(yValue) - 10 + window.scrollY) + "px")
                     .style("opacity", 0.9);
