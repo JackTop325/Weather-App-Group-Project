@@ -134,7 +134,7 @@ function getLocation() {
 
 // updateSevenDayForecast Function
 // Updates the 7-day forecast, displaying highs and lows for each day.
-function updateSevenDayForecast(data) {
+function updateSevenDayForecast(data, unit) {
   const forecastDays = 7;
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const forecastDiv = $(".column.right .box");
@@ -148,11 +148,15 @@ function updateSevenDayForecast(data) {
     const date = new Date();
     date.setDate(date.getDate() + i);
     const day = daysOfWeek[date.getDay()];
-    const tempMax = Math.round(data.daily.temperature_2m_max[i].toFixed(1));
-    const tempMin = Math.round(data.daily.temperature_2m_min[i].toFixed(1));
+    const tempMaxCelsius = Math.round(data.daily.temperature_2m_max[i].toFixed(1));
+    const tempMinCelsius = Math.round(data.daily.temperature_2m_min[i].toFixed(1));
+    const tempMaxFahrenheit = Math.round(((tempMaxCelsius * 9) / 5 + 32).toFixed(1));
+    const tempMinFahrenheit = Math.round(((tempMinCelsius * 9) / 5 + 32).toFixed(1));
+    const tempMax = unit === "F" ? tempMaxFahrenheit + "°F" : tempMaxCelsius + "°C";
+    const tempMin = unit === "F" ? tempMinFahrenheit + "°F" : tempMinCelsius + "°C";
     const dayDiv = $("<div>").addClass("forecast-day");
     const dayName = $("<h4>").text(day);
-    const tempRange = $("<p>").text(`${tempMax}°C / ${tempMin}°C`);
+    const tempRange = $("<p>").text(`${tempMax} / ${tempMin}`);
 
     dayDiv.append(dayName, tempRange);
     forecastDiv.append(dayDiv);
@@ -273,8 +277,9 @@ function updateWeather(data) {
     const hourIndex = (currentHour + i) % 24;
     nextNineHoursTemperatures.push(data.hourly.temperature_2m[hourIndex]);
   }
-  drawTemperatureChart(data, unit); // Pass the unit here
-  updateForecast(nextNineHoursTemperatures, unit); // Pass the unit here
+  drawTemperatureChart(data, unit); 
+  updateSevenDayForecast(data, unit);
+  updateForecast(nextNineHoursTemperatures, unit);
 
   // Update Advanced Information
   $("#cloud-cover").text(
