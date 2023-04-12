@@ -30,3 +30,4 @@ Curtis Reynolds
 -Used API integration to build a 7-Day Forecast Box 
 -jQuery usage, specifically building the "Temperature Change Across The Day" graph
 -Created autocomplete widget for the search bar using AJAX and jQuery
+-Fixed bugs
