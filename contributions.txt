@@ -1,4 +1,8 @@
 David Howe
+- Created favourite locations tray
+- Added buttons to forecast to add/remove from favourites
+- Added persistent favourites with cookie functionality
+- Fixed bugs
 
 Kaine Makimoto
 - Created landing page design and elements
