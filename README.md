@@ -1,11 +1,11 @@
 # Weather-App-Group-Project
 ---
 ## How To Run:
-```shell
--> cd Weather-App-Group-Project
--> npm install
--> nodemon
--> open http://localhost:3000/ in browser
+```
+1. cd Weather-App-Group-Project
+2. npm install
+3. nodemon
+4. open http://localhost:3000/ in browser
 ```
 ---
 ### Contributors:
