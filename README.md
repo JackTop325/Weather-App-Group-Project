@@ -5,6 +5,7 @@
 -> cd Weather-App-Group-Project
 -> npm install
 -> nodemon
+-> open http://localhost:3000/ in browser
 ```
 ---
 ### Contributors:
