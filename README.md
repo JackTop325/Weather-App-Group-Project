@@ -1,6 +1,12 @@
 # Weather-App-Group-Project
 ---
-
+## How To Run:
+```shell
+-> cd Weather-App-Group-Project
+-> npm install
+-> nodemon
+```
+---
 ### Contributors:
 
 | Names  | BannerID |
