@@ -51,35 +51,6 @@ function removeFavouriteLocation(location) {
   updateLocationCookie();
 }
 
-
-
-
-// Populate page with data from given address
-function updateForecastWithFavouriteData(address) {
-  $.ajax({
-    url:
-      "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-      encodeURIComponent(address) +
-      ".json?access_token=" +
-      mapBoxAccessToken,
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-      if (data.features.length != 0) {
-        latitude = data.features[0].center[1];
-        longitude = data.features[0].center[0];
-        getWeather(latitude, longitude);
-        $("#city-name").text(address);
-      } else {
-        console.log("Location not found");
-      }
-    },
-    error: function (error) {
-      console.log("Geocoding error: " + error);
-    },
-  });
-}
-
 // Update cookie that holds favourite location data
 function updateLocationCookie() {
   var output = '[';
