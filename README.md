@@ -1,45 +1,12 @@
 # Weather-App-Group-Project
 ---
 ## How To Run:
-
-### 1. Run Server:
-
-1. Within command prompt go to the server directory
-
 ```
-cd Weather-App-Group-Project/server
+1. cd Weather-App-Group-Project
+2. npm install
+3. nodemon
+4. open http://localhost:3000/ in browser
 ```
-
-2. Run 'npm install' if you have never ran the program before
-
-```
-npm install
-```
-3. Run 'nodemon' to start the server
-
-```
-nodemon
-```
-
-### 2. Start webpage:
-
-1. Within another terminal go to the weather-app directory
-
-```
-cd Weather-App-Group-Project/weather-app
-```
-
-2. Run 'npm install' if you have never ran the program before
-
-```
-npm install
-```
-3. Run 'npm start' to start the program
-
-```
-npm start
-```
-4. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ---
 ### Contributors:
 

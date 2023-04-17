@@ -1,5 +1,7 @@
 var latitude;
 var longitude;
+var mapBoxAccessToken =
+  "pk.eyJ1IjoiamFja3RvcCIsImEiOiJjbGEzMDdkeHkwZXFvM3FvYzJyNnQ1cTY5In0.DF-KCqd2MVSkAcSGE1xS0A";
 var data;
 
 // Document Ready
@@ -24,7 +26,7 @@ $(document).ready(function () {
         longitude = selectedCity.center[0];
       } else {
         // If false, call the geoCoding() function to fetch the latitude and longitude
-        geoCoding($("#city").val());
+        geoCoding();
       }
       // Call the getWeather() function to fetch weather information for the city
       getWeather(latitude, longitude);
@@ -33,8 +35,9 @@ $(document).ready(function () {
     }
   });
 
+
   $("#toggle").change(function () {
-    getWeather(latitude, longitude);
+    updateWeather(data);
   });
 
   $("#advanced-toggle").change(function () {
@@ -72,7 +75,7 @@ $(document).ready(function () {
   $("#add-fav").click(function() {addFavouriteLocation($('#city-name').text());} );
   $("#rmv-fav").click(function() {removeFavouriteLocation($('#city-name').text());} );
   $(document).on('click', ".fav-city", function() {
-    geoCoding($(this).attr('data-fullname'));
+    updateForecastWithFavouriteData($(this).attr('data-fullname'));
   } );
 });
 
@@ -82,7 +85,9 @@ function getCitySuggestions(request, callback) {
   // Extract the search term from the request
   const query = request.term;
   // Construct the Mapbox Geocoding API URL with the search term and access token
-  const mapboxGeocodingUrl = `http://localhost:3001/address=${query}`;
+  const mapboxGeocodingUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+    query
+  )}.json?access_token=${mapBoxAccessToken}&limit=5`;
 
   // Make an AJAX request to the Mapbox Geocoding API
   $.ajax({
@@ -120,7 +125,7 @@ function getLocation() {
       latitude = position.coords.latitude;
       longitude = position.coords.longitude;
       geolocation();
-      getWeather(latitude, longitude);
+      getWeather(latitude, longitude)
     });
   } else {
     console.log("Geolocation is not supported by this browser.");
@@ -159,19 +164,24 @@ function updateSevenDayForecast(data, unit) {
 }
 
 // geoCoding Function
-// Uses the server to retreive the latitude and longitude of a given location.
-function geoCoding(address) {
+// Uses the mapbox API to retreive the latitude and longitude of a given location.
+function geoCoding() {
+  var address = $("#city").val();
+
   $.ajax({
     url:
-      `http://localhost:3001/address=${address}`,
+      "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+      encodeURIComponent(address) +
+      ".json?access_token=" +
+      mapBoxAccessToken,
     type: "GET",
     dataType: "json",
     success: function (data) {
-      if (data.length != 0) {
-        latitude = data['latitude'];
-        longitude = data['longitude'];
+      if (data.features.length != 0) {
+        latitude = data.features[0].center[1];
+        longitude = data.features[0].center[0];
         getWeather(latitude, longitude);
-        $("#city-name").text(address);
+        $("#city-name").text($("#city").val());
       } else {
         console.log("Location not found");
       }
@@ -183,14 +193,24 @@ function geoCoding(address) {
 }
 
 // geoLocation Function
-// Uses the server to retrieve the city name given longitude and latitude.
+// Uses the mapbox API to retrieve the city name given longitude and latitude.
 function geolocation() {
   $.ajax({
-    url:`http://localhost:3001/location/lat=${latitude}/long=${longitude}`,
+    url:
+      "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+      longitude +
+      "," +
+      latitude +
+      ".json?access_token=" +
+      mapBoxAccessToken,
     type: "GET",
     dataType: "json",
     success: function (data) {
-      $("#city-name").text(data);
+      const city = data.features[0].context.filter((context) =>
+        context.id.startsWith("place")
+      )[0].text;
+      // console.log("Current Location: " + city);
+      $("#city-name").text(city);
     },
     error: function (error) {
       console.log("Geolocation error: " + error);
@@ -199,18 +219,21 @@ function geolocation() {
 }
 
 // getWeather Function
-// Uses the server to fetch weather information from a given latitude and longitude
+// Uses open-meteo's API to fetch weather information from a given latitude and longitude
 // Result is stored in data
 function getWeather(latitude, longitude) {
-  var endpoint = `http://localhost:3001/weather/lat=${latitude}/long=${longitude}`;
+  var endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=apparent_temperature,relativehumidity_2m,weathercode,temperature_2m,precipitation_probability,precipitation,windspeed_10m,cloudcover,dewpoint_2m,uv_index&timezone=America%2FNew_York`;
+
   $.ajax({
     url: endpoint,
     type: "GET",
     dataType: "json",
-    success: function (data) {
-      updateWeather(data['data']); // Update displayed weather using fetched data
-      updateSevenDayForecast(data['data']); // Update 7-day forecast using fetched data
-      drawTemperatureChart(data['data']); // Add this line
+    success: function (d) {
+      data = d;
+      console.log(data);
+      updateWeather(data); // Update displayed weather using fetched data
+      updateSevenDayForecast(data); // Update 7-day forecast using fetched data
+      drawTemperatureChart(data); // Add this line
     },
     error: function (error) {
       console.log("Could not get weather information, Error:" + error);
@@ -328,3 +351,4 @@ function getWeatherIcon(code, sunrise, sunset) {
     return "unknown.png";
   }
 }
+

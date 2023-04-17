@@ -1,0 +1,23 @@
+{
+  "name": "weather-app-group-project",
+  "version": "1.0.0",
+  "description": "A Weather App Group Project for CSCI3230",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JackTop325/Weather-App-Group-Project.git"
+  },
+  "author": "David Howe, Kaine Makimoto, Jackie Jiang, Nadman Khan, Ahad Abdul, Curtis Reynolds",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JackTop325/Weather-App-Group-Project/issues"
+  },
+  "homepage": "https://github.com/JackTop325/Weather-App-Group-Project#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  }
+}
