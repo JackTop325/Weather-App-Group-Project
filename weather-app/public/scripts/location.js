@@ -298,11 +298,7 @@ function updateForecast(temperatures, unit) {
 function getWeatherIcon(code, sunrise, sunset) {
   // Code & Time Cases
   if (code >= 0 && code <= 2) {
-    if(new Date().getHours()>=6 && new Date().getHours() <= 18){
-      return "sun.png";
-    } else {
-      return "night.png"
-    }
+    return "sun.png";
   }
   if (code == 3) {
     return "partly-cloudy.png";
