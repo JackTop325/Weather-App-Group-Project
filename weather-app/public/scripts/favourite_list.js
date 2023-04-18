@@ -29,6 +29,8 @@ function updateFavouriteLocations() {
   $favouriteDiv.empty();
 
   for (city of favouriteCities) {
+    if (city === '') {continue;}
+    
     cityName = city.split(',')[0];
     $newCityButton = $(`<a class="button is-fullwidth fav-city" data-fullname="${city}">${cityName}</a>`);
     $favouriteDiv.append($newCityButton);
