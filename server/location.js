@@ -1,7 +1,46 @@
 const axios = require('axios');
+const db = require('./db/database.js');
 
 const mapBoxAccessToken =
   "pk.eyJ1IjoiamFja3RvcCIsImEiOiJjbGEzMDdkeHkwZXFvM3FvYzJyNnQ1cTY5In0.DF-KCqd2MVSkAcSGE1xS0A";
+
+//function to get the data from the database
+function getRecentSearches() {
+  return new Promise((resolve, reject) => {
+    const userId = 1;
+    db.all(
+      `SELECT * FROM user_searches WHERE user_id = ? ORDER BY timestamp DESC LIMIT 5`,
+      [userId],
+      (err, rows) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      }
+    );
+  });
+}
+
+//function to insert the data into the database
+function insertSearch(city) {
+  return new Promise((resolve, reject) => {
+    const userId = 1;
+    db.run(
+      `INSERT INTO user_searches (user_id, city) VALUES (?, ?)`,
+      [userId, city],
+      err => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve();
+        }
+      }
+    );
+  });
+}
 
 // geoCoding Function
 // Uses the mapbox API to retrieve the latitude and longitude of a given location.
@@ -78,5 +117,7 @@ module.exports = {
   geoCoding,
   getSuggestion,
   geolocation,
-  getWeather
+  getWeather,
+  getRecentSearches,
+  insertSearch
 };
