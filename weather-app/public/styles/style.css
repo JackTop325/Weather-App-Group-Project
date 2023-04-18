@@ -84,6 +84,14 @@ h4 {
   margin-bottom: 5px;
 }
 
+label input {
+  margin-right: 5px;
+}
+
+.box .checkbox {
+  margin-right: 10px;
+}
+
 /* Temperature chart styles */
 #temperature-chart {
   background-color: rgba(255, 255, 255, 0.8);
