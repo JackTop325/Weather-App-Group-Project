@@ -120,7 +120,7 @@ function getLocation() {
       latitude = position.coords.latitude;
       longitude = position.coords.longitude;
       geolocation();
-      getWeather(latitude, longitude)
+      getWeather(latitude, longitude);
     });
   } else {
     console.log("Geolocation is not supported by this browser.");
@@ -254,7 +254,7 @@ function updateWeather(data) {
     const hourIndex = (currentHour + i) % 24;
     nextNineHoursTemperatures.push(data.hourly.temperature_2m[hourIndex]);
   }
-  drawTemperatureChart(data, unit); 
+  drawTemperatureChart(data, unit);
   updateSevenDayForecast(data, unit);
   updateForecast(nextNineHoursTemperatures, unit);
 
@@ -298,7 +298,11 @@ function updateForecast(temperatures, unit) {
 function getWeatherIcon(code, sunrise, sunset) {
   // Code & Time Cases
   if (code >= 0 && code <= 2) {
-    return "sun.png";
+    if(new Date().getHours()>=6 && new Date().getHours() <= 18){
+      return "sun.png";
+    } else {
+      return "night.png"
+    }
   }
   if (code == 3) {
     return "partly-cloudy.png";
