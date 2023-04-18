@@ -1,4 +1,4 @@
-function drawTemperatureChart(data, unit) {
+function drawTemperatureChart(data) {
     const hourlyData = data.hourly.temperature_2m.slice(0, 24);
     if (unit === "F") {
         hourlyData.forEach((temp, i) => {

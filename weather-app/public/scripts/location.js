@@ -1,6 +1,7 @@
 var latitude;
 var longitude;
 var data;
+var unit;
 
 // Document Ready
 // Handles click events onload
@@ -129,7 +130,7 @@ function getLocation() {
 
 // updateSevenDayForecast Function
 // Updates the 7-day forecast, displaying highs and lows for each day.
-function updateSevenDayForecast(data, unit) {
+function updateSevenDayForecast(data) {
   const forecastDays = 7;
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const forecastDiv = $(".column.right .box");
@@ -248,14 +249,14 @@ function updateWeather(data) {
   $("#weather-icon").attr("src", 'images/icons/' + weatherIcon);
   // Update forecast
   const currentHour = new Date().getHours();
-  const unit = $("#toggle").is(":checked") ? "F" : "C";
+  unit = $("#toggle").is(":checked") ? "F" : "C";
   const nextNineHoursTemperatures = [];
   for (let i = 0; i <= 8; i++) {
     const hourIndex = (currentHour + i) % 24;
     nextNineHoursTemperatures.push(data.hourly.temperature_2m[hourIndex]);
   }
-  drawTemperatureChart(data, unit);
-  updateSevenDayForecast(data, unit);
+  drawTemperatureChart(data); 
+  updateSevenDayForecast(data);
   updateForecast(nextNineHoursTemperatures, unit);
 
   // Update Advanced Information

@@ -14,11 +14,16 @@ Kaine Makimoto
 
 Jackie Jiang
 - Used Ajax, and web services to get data from the internet
-- Used Ajax to fetch data from Open Meteo and from MapBox
+- Used Ajax to fetch data from Open Meteo Api and MapBox Api
 - Set up access to MapBox with api key
 - Used MapBox to create functions for geolocation and geocoding
-- Worked on Node.js
-- Helped fix bugs
+- Used Node.js to create a backend server
+- Used Axios to fetch asynchronous data for the backend 
+- Used React.js as a client-side framework
+- Converted static html project into a React project
+- Established connection between client(weather-app) and backend(server) using Ajax
+- Added and Updated the running instructions in the README.md
+- Helped fix and detect bugs
 
 Nadman Khan
 
@@ -26,8 +31,10 @@ Ahad Abdul
 
 Curtis Reynolds
 -Bulma CSS styling
--HTML 
+-HTML assessment work
+-Added graph that shows the temperature across the day
 -Used API integration to build a 7-Day Forecast Box 
 -jQuery usage, specifically building the "Temperature Change Across The Day" graph
 -Created autocomplete widget for the search bar using AJAX and jQuery
+-Implemented showing Fahrenheit in Today's Forecast
 -Fixed bugs
