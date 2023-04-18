@@ -130,7 +130,7 @@ function getLocation() {
 
 // updateSevenDayForecast Function
 // Updates the 7-day forecast, displaying highs and lows for each day.
-function updateSevenDayForecast(data, unit) {
+function updateSevenDayForecast(data) {
   const forecastDays = 7;
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const forecastDiv = $(".column.right .box");
@@ -256,7 +256,7 @@ function updateWeather(data) {
     nextNineHoursTemperatures.push(data.hourly.temperature_2m[hourIndex]);
   }
   drawTemperatureChart(data); 
-  updateSevenDayForecast(data, unit);
+  updateSevenDayForecast(data);
   updateForecast(nextNineHoursTemperatures, unit);
 
   // Update Advanced Information
