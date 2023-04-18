@@ -31,8 +31,10 @@ Ahad Abdul
 
 Curtis Reynolds
 -Bulma CSS styling
--HTML 
+-HTML assessment work
+-Added graph that shows the temperature across the day
 -Used API integration to build a 7-Day Forecast Box 
 -jQuery usage, specifically building the "Temperature Change Across The Day" graph
 -Created autocomplete widget for the search bar using AJAX and jQuery
+-Implemented showing Fahrenheit in Today's Forecast
 -Fixed bugs
