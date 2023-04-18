@@ -26,6 +26,12 @@ Jackie Jiang
 - Helped fix and detect bugs
 
 Nadman Khan
+- Created the database to store the data of the weather app
+- Helped in displaying the 5 most searched cities on the app under the search bar 
+- Added click function such that when the search bar is clicked the display of the searched cities are shown
+- Using the database found out the 5 most searched cities on the weather app
+- Helped find and fix bugs within the database
+
 
 Ahad Abdul
 
