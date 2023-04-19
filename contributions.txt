@@ -41,6 +41,11 @@ Nadman Khan
 
 
 Ahad Abdul
+- Used SQLite to create a databse for the backend of the application
+- Helped in the creation of the database which stored recently searched for cities
+- Contributed to the implementation of displaying the 5 recently searched cities on the app
+- Troubleshot bugs related to the database
+
 
 Curtis Reynolds
 -Bulma CSS styling
