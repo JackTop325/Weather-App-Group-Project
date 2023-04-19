@@ -38,6 +38,11 @@ Nadman Khan
 - Added click function such that when the search bar is clicked the display of the searched cities are shown
 - Using the database found out the 5 most searched cities on the weather app
 - Helped find and fix bugs within the database
+- Initialized database to work with with the app
+- Linked database with the weather app 
+- Identified and fixed bugs within the database 
+- Used SQLite to make sure database stores recent searched city names 
+- Displayed the recent searches under search bar when clicked
 
 
 Ahad Abdul
@@ -52,7 +57,7 @@ Curtis Reynolds
 -Bulma CSS styling
 -HTML assessment work
 -Added graph that shows the temperature across the day
--Used API integration to build a 7-Day Forecast Box 
+-Used API integration to build a 7-Day Forecast Box, which shows the high/low temp for the next 7 days 
 -jQuery usage, specifically building the "Temperature Change Across The Day" graph
 -Created autocomplete widget for the search bar using AJAX and jQuery
 -Implemented showing Fahrenheit in Today's Forecast
