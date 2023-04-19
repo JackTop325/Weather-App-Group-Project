@@ -7,38 +7,35 @@ const mapBoxAccessToken =
 //function to get the data from the database
 function getRecentSearches() {
   return new Promise((resolve, reject) => {
-    const userId = 1;
-    db.all(
-      `SELECT * FROM user_searches WHERE user_id = ? ORDER BY timestamp DESC LIMIT 5`,
-      [userId],
-      (err, rows) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(rows);
-        }
+    db.all(`SELECT DISTINCT city FROM user_searches WHERE user_id = 1 ORDER BY timestamp DESC LIMIT 5`, (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        reject(err);
+      } else {
+        console.log(rows);
+        resolve(rows);
       }
-    );
+    });
   });
 }
 
+
 //function to insert the data into the database
-function insertSearch(city) {
+async function insertSearch(city) {
+  const userId = 1;
   return new Promise((resolve, reject) => {
-    const userId = 1;
     db.run(
       `INSERT INTO user_searches (user_id, city) VALUES (?, ?)`,
       [userId, city],
-      err => {
+      function(err) {
         if (err) {
-          console.error(err);
+          console.error(err.message);
           reject(err);
         } else {
-          resolve();
+          const out = `A row has been inserted: ${city}`
+          resolve(out);
         }
-      }
-    );
+    });
   });
 }
 

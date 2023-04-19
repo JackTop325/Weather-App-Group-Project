@@ -24,6 +24,7 @@ function App() {
                 className="input"
                 type="text"
                 placeholder="Search for city..."
+                autoComplete="off"
               />
             </div>
             <div className="control">

@@ -1,9 +1,5 @@
-const express = require('express');
 const sqlite3 = require('sqlite3');
 const path = require('path');
-
-const app = express();
-const PORT = process.env.PORT || 5000;
 
 // Connect to the database
 const db = new sqlite3.Database(path.join(__dirname, 'database.db'), err => {

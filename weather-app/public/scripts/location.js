@@ -16,6 +16,7 @@ $(document).ready(function () {
     const cityName = $("#city").val();
     // Check if the city name is not empty
     if (cityName) {
+      addRecentSearch(cityName);
       // Get the selected city object, which was previously stored as data on the input field
       const selectedCity = $("#city").data("selectedCity");
       // Check if the selected city exists and its label matches the entered city name
@@ -46,35 +47,53 @@ $(document).ready(function () {
     }
   });
 
-  // Initialize the Autocomplete widget
-  $("#city").autocomplete({
-    // Set the source function to fetch city suggestions using the getCitySuggestions function
-    source: getCitySuggestions,
-    // Set the minimum number of characters required to trigger the Autocomplete suggestions
-    minLength: 1,
-    // Define a function to execute when a suggestion is selected from the list
-    select: function (event, ui) {
-      // Set the value of the input field to the selected city's name
-      $("#city").val(ui.item.value);
-      // Store the selected city object as data on the input field for future reference
-      $("#city").data("selectedCity", ui.item);
-      // Extract the latitude and longitude of the selected city
-      latitude = ui.item.center[1];
-      longitude = ui.item.center[0];
-      // Call the getWeather function to fetch weather information for the selected city
-      getWeather(latitude, longitude);
-      // Update the text content of the element with the ID "city-name" to display the selected city's name
-      $("#city-name").text(ui.item.value);
-      // Prevent the default action of the select event from executing
-      return false;
-    },
+  // Initialize the Autocomplete widget upon clicking on search
+  $("#city").click(function() {
+    $("#city").autocomplete({
+      // Set the source function to fetch city suggestions
+      source: function(request, response) {
+        if (request.term.length < 1) {
+          // Use getRecentSearches for empty search queries
+          getRecentSearches(function(suggestions) {
+            // Call the response function with the list of suggestion objects
+            response(suggestions);
+          });
+        } else {
+          // Use getCitySuggestions for non-empty search queries
+          getCitySuggestions(request, response);
+        }
+      },
+      // Set the minimum number of characters required to trigger the Autocomplete suggestions
+      minLength: 0,
+      // Define a function to execute when a suggestion is selected from the list
+      select: function (event, ui) {
+        // Set the value of the input field to the selected city's name
+        $("#city").val(ui.item.value);
+        // Store the selected city object as data on the input field for future reference
+        $("#city").data("selectedCity", ui.item);
+        // Extract the latitude and longitude of the selected city
+        if (ui.item.center) {
+          latitude = ui.item.center[1];
+          longitude = ui.item.center[0];
+          addRecentSearch(ui.item.value);
+        } else {
+          geoCoding(ui.item.value);
+        }
+        // Call the getWeather function to fetch weather information for the selected city
+        getWeather(latitude, longitude);
+        // Update the text content of the element with the ID "city-name" to display the selected city's name
+        $("#city-name").text(ui.item.value);
+        // Prevent the default action of the select event from executing
+        return false;
+      },
+    }).autocomplete("search", $("#city").val());
   });
 
   $("#add-fav").click(function() {addFavouriteLocation($('#city-name').text());} );
   $("#rmv-fav").click(function() {removeFavouriteLocation($('#city-name').text());} );
   $(document).on('click', ".fav-city", function() {
     geoCoding($(this).attr('data-fullname'));
-  } );
+  });
 });
 
 // getCitySuggestions Function
@@ -109,6 +128,52 @@ function getCitySuggestions(request, callback) {
     // If the request fails, log the error
     error: function (error) {
       console.log("Error fetching city suggestions:", error);
+    },
+  });
+}
+
+// communicate to the backend server to get the 5 most recent searches 
+function getRecentSearches(callback) {  
+  // Construct the Mapbox Geocoding API URL with the search term and access token
+  const databaseUrl = `http://localhost:3001/database`;
+
+  // Make an AJAX request to the Mapbox Geocoding API
+  $.ajax({
+    url: databaseUrl,
+    type: "GET",
+    dataType: "json",
+    // If the request is successful, process the data
+    success: function (data) {
+      // Filter out features that are not cities and create a list of suggestion objects
+      const suggestions = data['data']
+        .map(function (feature) {
+          // Create a suggestion object with label, value, and center properties
+          return {
+            value: feature['city'],
+          };
+        });
+      // Pass the list of suggestions to the callback function
+      callback(suggestions);
+    },
+    // If the request fails, log the error
+    error: function (error) {
+      console.log("Error fetching previous search suggestions:", error);
+    },
+  });
+}
+
+// communicate to the backend server to add a most recent search
+function addRecentSearch(city) {
+  $.ajax({
+    url:
+      `http://localhost:3001/database/insert=${city}`,
+    type: "GET",
+    dataType: "text",
+    success: function (data) {
+      console.log(data);
+    },
+    error: function (error) {
+      console.log("Database error: " + error);
     },
   });
 }

@@ -2,10 +2,12 @@ let express = require('express');
 let app = express();
 
 const {
-    geoCoding,
-    getSuggestion,
-    geolocation,
-    getWeather
+  geoCoding,
+  getSuggestion,
+  geolocation,
+  getWeather,
+  getRecentSearches,
+  insertSearch
 } = require('./location.js');
 
 app.use((req, res, next) => {
@@ -57,6 +59,26 @@ app.get('/suggestion/:query=:query', async (req, res) => {
   try {
     const data = await getSuggestion(req.params.query);
     res.json({data});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get('/database', async (req, res) => {
+  try {
+    const data = await getRecentSearches();
+    res.json({data});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get('/database/:insert=:insert', async (req, res) => {
+  try {
+    const out = await insertSearch(req.params.insert);
+    res.send(out);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
