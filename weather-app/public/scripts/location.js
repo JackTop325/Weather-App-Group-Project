@@ -335,11 +335,14 @@ function updateWeather(data) {
   $("#cloud-cover").text(
     "Cloud Cover: " + data.hourly.cloudcover[new Date().getHours()] + "%"
   );
-  // Update Dewpoint
+  const dewInCelsius = Math.round(data.hourly.dewpoint_2m[new Date().getHours()].toFixed(1));
+  const dewInFahrenheit = Math.round(((dewInCelsius * 9) / 5 + 32).toFixed(1));
+  const dewDisplay = $("#toggle").is(":checked")
+    ? dewInFahrenheit + "°F"
+    : dewInCelsius + "°C";
   $("#dewpoint").text(
-    "Dewpoint: " + dewPointDisplay
+    "Dewpoint: " + dewDisplay
   );
-
   $("#uv-index").text(
     "UV Index: " + data.hourly.uv_index[new Date().getHours()].toFixed(1)
   );
