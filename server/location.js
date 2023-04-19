@@ -4,7 +4,7 @@ const db = require('./db/database.js');
 const mapBoxAccessToken =
   "pk.eyJ1IjoiamFja3RvcCIsImEiOiJjbGEzMDdkeHkwZXFvM3FvYzJyNnQ1cTY5In0.DF-KCqd2MVSkAcSGE1xS0A";
 
-//function to get the data from the database
+//function to query and get data from the database
 function getRecentSearches() {
   return new Promise((resolve, reject) => {
     db.all(`SELECT DISTINCT city FROM user_searches WHERE user_id = 1 ORDER BY timestamp DESC LIMIT 5`, (err, rows) => {
@@ -64,9 +64,8 @@ async function geoCoding(address) {
 async function getSuggestion(address) {
   try {
     const response = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${mapBoxAccessToken}&limit=5`);
-    const data = response.data;
-    console.log(data);
-    return data;
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.log("Error fetching city suggestions:", error);
     throw error;
@@ -99,11 +98,9 @@ async function geolocation(latitude, longitude) {
 // Result is stored in data
 async function getWeather(latitude, longitude) {
   try {
-    const endpoint = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=apparent_temperature,relativehumidity_2m,weathercode,temperature_2m,precipitation_probability,precipitation,windspeed_10m,cloudcover,dewpoint_2m,uv_index&timezone=America%2FNew_York`;
-    const response = await axios.get(endpoint);
-    const data = response.data;
-    console.log(data);
-    return data;
+    const response = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=apparent_temperature,relativehumidity_2m,weathercode,temperature_2m,precipitation_probability,precipitation,windspeed_10m,cloudcover,dewpoint_2m,uv_index&timezone=America%2FNew_York`);
+    console.log(response.data);
+    return response.data;
   } catch (error) {
     console.log("Could not get weather information. Error:", error);
     throw error;
