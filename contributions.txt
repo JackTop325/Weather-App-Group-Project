@@ -24,6 +24,10 @@ Jackie Jiang
 - Used React.js as a client-side framework
 - Converted static html project into a React project
 - Established connection between client(weather-app) and backend(server) using Ajax
+- Updated the backend to query and send data from the database
+- Updated the frontend to send and request database data from the server
+- Updated autocomplete widget to showcase your recent searches when input field is clicked
+- Used the database to showcase the 5 most recent searches
 - Added and Updated the running instructions in the README.md
 - Helped fix and detect bugs
 
