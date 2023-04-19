@@ -324,13 +324,6 @@ function updateWeather(data) {
   updateSevenDayForecast(data);
   updateForecast(nextNineHoursTemperatures, unit);
 
-  // Calculate dew point
-  const dewPointInCelsius = data.hourly.dewpoint_2m[new Date().getHours()].toFixed(1);
-  const dewPointInFahrenheit = Math.round(((dewPointInCelsius * 9) / 5 + 32).toFixed(1));
-  const dewPointDisplay = $("#toggle").is(":checked")
-    ? dewPointInFahrenheit + "°F"
-    : dewPointInCelsius + "°C";
-
   // Update Advanced Information
   $("#cloud-cover").text(
     "Cloud Cover: " + data.hourly.cloudcover[new Date().getHours()] + "%"
