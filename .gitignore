@@ -5,6 +5,7 @@
 /server/node_modules
 /weather-app/node_modules
 /pre-react/node_modules
+/server/db/database.db
 /.pnp
 .pnp.js
 
