@@ -48,13 +48,13 @@ $(document).ready(function () {
   });
 
   // Initialize the Autocomplete widget upon clicking on search
-  $("#city").click(function() {
+  $("#city").click(function () {
     $("#city").autocomplete({
       // Set the source function to fetch city suggestions
-      source: function(request, response) {
+      source: function (request, response) {
         if (request.term.length < 1) {
           // Use getRecentSearches for empty search queries
-          getRecentSearches(function(suggestions) {
+          getRecentSearches(function (suggestions) {
             // Call the response function with the list of suggestion objects
             response(suggestions);
           });
@@ -89,9 +89,9 @@ $(document).ready(function () {
     }).autocomplete("search", $("#city").val());
   });
 
-  $("#add-fav").click(function() {addFavouriteLocation($('#city-name').text());} );
-  $("#rmv-fav").click(function() {removeFavouriteLocation($('#city-name').text());} );
-  $(document).on('click', ".fav-city", function() {
+  $("#add-fav").click(function () { addFavouriteLocation($('#city-name').text()); });
+  $("#rmv-fav").click(function () { removeFavouriteLocation($('#city-name').text()); });
+  $(document).on('click', ".fav-city", function () {
     geoCoding($(this).attr('data-fullname'));
   });
 });
@@ -133,7 +133,7 @@ function getCitySuggestions(request, callback) {
 }
 
 // communicate to the backend server to get the 5 most recent searches 
-function getRecentSearches(callback) {  
+function getRecentSearches(callback) {
   // Construct the Mapbox Geocoding API URL with the search term and access token
   const databaseUrl = `http://localhost:3001/database`;
 
@@ -252,7 +252,7 @@ function geoCoding(address) {
 // Uses the server to retrieve the city name given longitude and latitude.
 function geolocation() {
   $.ajax({
-    url:`http://localhost:3001/location/lat=${latitude}/long=${longitude}`,
+    url: `http://localhost:3001/location/lat=${latitude}/long=${longitude}`,
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -320,17 +320,26 @@ function updateWeather(data) {
     const hourIndex = (currentHour + i) % 24;
     nextNineHoursTemperatures.push(data.hourly.temperature_2m[hourIndex]);
   }
-  drawTemperatureChart(data); 
+  drawTemperatureChart(data);
   updateSevenDayForecast(data);
   updateForecast(nextNineHoursTemperatures, unit);
+
+  // Calculate dew point
+  const dewPointInCelsius = data.hourly.dewpoint_2m[new Date().getHours()].toFixed(1);
+  const dewPointInFahrenheit = Math.round(((dewPointInCelsius * 9) / 5 + 32).toFixed(1));
+  const dewPointDisplay = $("#toggle").is(":checked")
+    ? dewPointInFahrenheit + "°F"
+    : dewPointInCelsius + "°C";
 
   // Update Advanced Information
   $("#cloud-cover").text(
     "Cloud Cover: " + data.hourly.cloudcover[new Date().getHours()] + "%"
   );
+  // Update Dewpoint
   $("#dewpoint").text(
-    "Dewpoint: " + data.hourly.dewpoint_2m[new Date().getHours()].toFixed(1) + "°C"
+    "Dewpoint: " + dewPointDisplay
   );
+
   $("#uv-index").text(
     "UV Index: " + data.hourly.uv_index[new Date().getHours()].toFixed(1)
   );
@@ -364,7 +373,7 @@ function updateForecast(temperatures, unit) {
 function getWeatherIcon(code, sunrise, sunset) {
   // Code & Time Cases
   if (code >= 0 && code <= 2) {
-    if(new Date().getHours()>=6 && new Date().getHours() <= 18){
+    if (new Date().getHours() >= 6 && new Date().getHours() <= 18) {
       return "sun.png";
     } else {
       return "night.png"
