@@ -15,17 +15,18 @@ Kaine Makimoto
 - Worked on today's forecast section
 
 Jackie Jiang
-- Used Ajax, and web services to get data from the internet
-- Used Ajax to fetch data from Open Meteo Api and MapBox Api
 - Set up access to MapBox with api key
 - Used MapBox to create functions for geolocation and geocoding
 - Used Node.js to create a backend server
 - Used Axios to fetch asynchronous data for the backend 
+- Used Axios, and web services to get data from the internet
+- Used Axios to fetch data from Open Meteo Api and MapBox Api
 - Used React.js as a client-side framework
 - Converted static html project into a React project
 - Established connection between client(weather-app) and backend(server) using Ajax
+- Used Ajax to fetch data from the server
 - Updated the backend to query and send data from the database
-- Updated the frontend to send and request database data from the server
+- Updated the frontend to send and request database data from the server using Ajax
 - Updated autocomplete widget to showcase your recent searches when input field is clicked
 - Used the database to showcase the 5 most recent searches
 - Added and Updated the running instructions in the README.md
