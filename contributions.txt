@@ -45,6 +45,7 @@ Ahad Abdul
 - Helped in the creation of the database which stored recently searched for cities
 - Contributed to the implementation of displaying the 5 recently searched cities on the app
 - Troubleshot bugs related to the database
+- Assisted in the writing of the independent study report
 
 
 Curtis Reynolds
