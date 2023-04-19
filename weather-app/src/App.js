@@ -108,10 +108,9 @@ function App() {
       <div className="content has-text-centered">
         <p><strong>OTU Weather</strong> All rights reserved.</p>
         <p>
-          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a> |
-          <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">Twitter</a> |
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a> |
-          <a href="privacy-policy.html" target="_blank">Privacy Policy</a>
+          <a href="https://www.facebook.com/ontariotechu" target="_blank" rel="noopener noreferrer"> Facebook</a> |
+          <a href="https://twitter.com/ontariotech_u" target="_blank" rel="noopener noreferrer"> Twitter</a> |
+          <a href="https://www.instagram.com/ontariotechu/" target="_blank" rel="noopener noreferrer"> Instagram</a>
         </p>
       </div>
     </footer>
